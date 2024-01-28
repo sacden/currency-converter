@@ -1,4 +1,3 @@
-import "../App.css";
 import { useState, useEffect } from "react";
 import ConverterLabel from "../components/ConverterLabel";
 import ConverterSelect from "../components/ConverterSelect";

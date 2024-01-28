@@ -33,8 +33,7 @@ select:focus {
   margin-bottom: 5px;
 }
 
-.search__input {
-  width: 85%;
+.inputValue {
   height: 2rem;
   border: none;
   border-radius: 0.4rem;
@@ -46,7 +45,6 @@ select:focus {
 }
 
 .select {
-  width: 90%;
   height: 2rem;
   border-radius: 0.4rem;
   box-shadow: 0.1rem 0.1rem 0.1rem #c8d0e7, -0.1rem -0.1rem 0.3rem #fff;
@@ -76,8 +74,4 @@ select:focus {
   font-weight: bold;
   text-align: center;
   margin-top: 20px;
-}
-
-.updated_time {
-  font-size: 11px;
 }
