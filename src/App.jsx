@@ -15,6 +15,7 @@ function App() {
     <>
       <div className="card">
         <select
+          className="btn"
           onChange={(e) => {
             let selectedCurrency = e.target.value;
             const selectedRate = rates.find((rate) => rate[0] === selectedCurrency)[1];
@@ -28,6 +29,7 @@ function App() {
           ))}
         </select>
         <select
+          className="btn"
           onChange={(e) => {
             let selectedCurrency = e.target.value;
             const selectedRate = rates.find((rate) => rate[0] === selectedCurrency)[1];
@@ -40,12 +42,15 @@ function App() {
             </option>
           ))}
         </select>
-        <input name="myInput" value={value} onChange={(e) => setValue(e.target.value)} />
+        <div className="amount">Amount</div>
+        <input className="search__input" name="myInput" value={value} onChange={(e) => setValue(e.target.value)} />
 
-        <h1>{value * firstCurrency[1] * secondCurrency[1]}</h1>
+        <h1>
+          {value * firstCurrency[1] * secondCurrency[1]} {secondCurrency[0]}{" "}
+        </h1>
 
-        <h2>{firstCurrency}</h2>
-        <h2>{secondCurrency}</h2>
+        {/* <h2>{firstCurrency}</h2>
+        <h2>{secondCurrency}</h2> */}
       </div>
     </>
   );
