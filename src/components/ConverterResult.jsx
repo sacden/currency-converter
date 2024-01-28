@@ -1,9 +1,9 @@
 import React from "react";
 
-const ConverterResult = ({ value, firstCurrency, secondCurrency }) => {
+const ConverterResult = ({ result, secondCurrency }) => {
   return (
     <>
-      {(value * firstCurrency[1] * secondCurrency[1]).toFixed(2)} {secondCurrency[0]}
+      {result} {secondCurrency}
     </>
   );
 };

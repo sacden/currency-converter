@@ -1,20 +1,42 @@
-import { useState } from "react";
 import "../App.css";
-import { mockdata } from "../../mockdata";
+import { useState, useEffect } from "react";
 import ConverterLabel from "../components/ConverterLabel";
 import ConverterSelect from "../components/ConverterSelect";
 import ConverterInput from "../components/ConverterInput";
 import ConverterResult from "../components/ConverterResult";
+import useCurrencyRates from "../hooks/useCurrencyRates";
+import { API_URL } from "../constants/common";
 
 function Converter() {
-  const [rates, setRates] = useState(Object.entries(mockdata.rates));
-  const [firstCurrency, setFirstCurrency] = useState(["USD", 1]);
-  const [secondCurrency, setSecondCurrency] = useState(["CAD", 1.345104]);
+  const [exchangeRate, setExchangeRate] = useState(1);
+  const [firstCurrency, setFirstCurrency] = useState("USD");
+  const [secondCurrency, setSecondCurrency] = useState("CZK");
   const [value, setValue] = useState(1);
+  const [result, setResult] = useState(null);
 
-  if (!rates) {
-    <div>Loading...</div>;
+  const { rates, loading, error } = useCurrencyRates(API_URL, firstCurrency);
+
+  //updates currency rate
+  useEffect(() => {
+    if (rates.length > 0) {
+      const rate = rates.find(([currencyCode]) => currencyCode === secondCurrency)[1];
+      setExchangeRate(rate);
+    }
+  }, [firstCurrency, secondCurrency, rates]);
+
+  //updates result of conversion
+  useEffect(() => {
+    setResult((value * exchangeRate).toFixed(2));
+  }, [value, exchangeRate]);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <>
       <div className="card">
@@ -27,7 +49,7 @@ function Converter() {
 
         <div className="box">
           <ConverterLabel text="From" />
-          <ConverterSelect currency={firstCurrency} setCurrency={setFirstCurrency} rates={rates} />
+          <ConverterSelect currency={firstCurrency} setCurrency={setFirstCurrency} rates={rates} setExchangeRate={setExchangeRate} />
         </div>
 
         <div className="box">
@@ -36,10 +58,8 @@ function Converter() {
         </div>
 
         <div className="result">
-          <ConverterResult value={value} firstCurrency={firstCurrency} secondCurrency={secondCurrency} />
+          <ConverterResult value={value} firstCurrency={firstCurrency} secondCurrency={secondCurrency} result={result} />
         </div>
-
-        <div className="updated_time">{mockdata.time_last_update_utc}</div>
       </div>
     </>
   );
